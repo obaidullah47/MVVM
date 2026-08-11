@@ -16,9 +16,12 @@ class RoundButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 40,
+      height: 60,
       width: 200,
-      decoration: BoxDecoration(color: Appcolors.ButtonColor),
+      decoration: BoxDecoration(
+        color: Appcolors.ButtonColor,
+        borderRadius: BorderRadius.circular(30),
+      ),
       child: Center(
         child: Text(title, style: TextStyle(color: Colors.white)),
       ),

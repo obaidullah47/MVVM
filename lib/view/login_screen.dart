@@ -15,7 +15,6 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _passwordcontroller = TextEditingController();
   FocusNode _emailfocus = FocusNode();
   FocusNode _passwordfocus = FocusNode();
-  late final height = MediaQuery.of(context).size.height * 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
