@@ -2,50 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:mvvm/res/components/round_buttons.dart';
 import 'package:mvvm/utils/general_utils.dart';
 import 'package:mvvm/utils/routes/routes_names.dart';
-import 'package:mvvm/view_model/auth_view_model.dart';
-import 'package:provider/provider.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  ValueNotifier<bool> _obsecurepass = ValueNotifier<bool>(true);
+class _SignupScreenState extends State<SignupScreen> {
   TextEditingController _emailcontroller = TextEditingController();
   TextEditingController _passwordcontroller = TextEditingController();
   FocusNode _emailfocus = FocusNode();
   FocusNode _passwordfocus = FocusNode();
-  @override
-  void dispose() {
-    _obsecurepass.dispose();
-    _emailcontroller.dispose();
-    _passwordcontroller.dispose();
-    _emailfocus.dispose();
-    _passwordfocus.dispose();
-    super.dispose();
-  }
-
+  ValueNotifier<bool> _eyenotifier = ValueNotifier<bool>(true);
   @override
   Widget build(BuildContext context) {
-    final authprovider = Provider.of<AuthViewModel>(context);
     return Scaffold(
-      appBar: AppBar(title: Text("Login"), centerTitle: true),
+      appBar: AppBar(
+        title: Text(
+          "SignUp",
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
+      ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
-              keyboardType: TextInputType.emailAddress,
               controller: _emailcontroller,
               focusNode: _emailfocus,
               decoration: InputDecoration(
-                hint: Text("Enter Your Email"),
                 label: Text("Email"),
+                hint: Text("Enter your Email"),
                 prefixIcon: Icon(Icons.email_outlined),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30),
@@ -56,65 +47,59 @@ class _LoginScreenState extends State<LoginScreen> {
               },
             ),
           ),
-          SizedBox(height: 10),
           ValueListenableBuilder(
-            valueListenable: _obsecurepass,
+            valueListenable: _eyenotifier,
             builder: (context, value, child) {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
-                  focusNode: _passwordfocus,
                   controller: _passwordcontroller,
+                  focusNode: _passwordfocus,
+                  obscureText: _eyenotifier.value,
+                  obscuringCharacter: "*",
                   decoration: InputDecoration(
-                    hint: Text("Enter Your Password"),
-                    labelText: "Password",
+                    hintText: "Enter Your password",
+                    label: Text("Password"),
+                    prefixIcon: Icon(Icons.lock_open_outlined),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
                     suffixIcon: InkWell(
                       onTap: () {
-                        _obsecurepass.value = !_obsecurepass.value;
+                        _eyenotifier.value = !_eyenotifier.value;
                       },
                       child: Icon(
-                        _obsecurepass.value
+                        _eyenotifier.value
                             ? Icons.visibility_off
                             : Icons.visibility,
                       ),
                     ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    prefixIcon: Icon(Icons.lock_open_outlined),
                   ),
-                  obscureText: _obsecurepass.value,
-                  obscuringCharacter: '*',
                 ),
               );
             },
           ),
           SizedBox(height: 40),
-
           RoundButtons(
-            loading: authprovider.loading,
-            title: "Login",
+            title: "Sign Up",
             onPress: () {
               if (_emailcontroller.text.isEmpty) {
-                GeneralUtils.flushbarerrormessage("Enter the email ", context);
+                GeneralUtils.flushbarerrormessage(
+                  "Your email is not entered",
+                  context,
+                );
               } else if (_passwordcontroller.text.isEmpty) {
                 GeneralUtils.flushbarerrormessage(
-                  "Eneter your password",
+                  "Enter your password",
                   context,
                 );
               } else if (_passwordcontroller.text.length < 6) {
                 GeneralUtils.flushbarerrormessage(
-                  "Password must be more than 6 digits",
+                  "Password must be greater than 6 digit",
                   context,
                 );
               } else {
-                Map data = {
-                  'email': _emailcontroller.text.toString(),
-
-                  'password': _passwordcontroller.text.toString(),
-                };
-                authprovider.login(data, context);
-                GeneralUtils.flushbarerrormessage("Your api hit", context);
+                print('sign up done');
               }
             },
           ),
@@ -122,16 +107,13 @@ class _LoginScreenState extends State<LoginScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Didn't have an Account", style: TextStyle(fontSize: 15)),
+              Text("Already had an account?", style: TextStyle(fontSize: 14)),
               SizedBox(width: 10),
               InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, RoutesNames.signup);
+                  Navigator.pushNamed(context, RoutesNames.LoginScreen);
                 },
-                child: Text(
-                  "Sign Up",
-                  style: TextStyle(fontSize: 18, color: Color(0xFF361981)),
-                ),
+                child: Text("Login", style: TextStyle(fontSize: 17)),
               ),
             ],
           ),
