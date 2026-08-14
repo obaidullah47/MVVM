@@ -13,12 +13,10 @@ class Networkapiservice extends Baseapiservice {
       final response = await http
           .get(Uri.parse(url))
           .timeout(const Duration(seconds: 10));
-      // Fixed: Added call to returnResponse and ensured jsonResponse is assigned
       jsonResponse = returnResponse(response);
     } on SocketException {
       throw FetchDataException('No internet Connection');
     }
-    // Fixed: Added return statement to return the response
     return jsonResponse;
   }
 
@@ -27,14 +25,17 @@ class Networkapiservice extends Baseapiservice {
     dynamic jsonResponse;
     try {
       final response = await http
-          .post(Uri.parse(url), body: data)
+          .post(
+            Uri.parse(url),
+            // Crucial: Must use jsonEncode if sending application/json
+            body: jsonEncode(data),
+            headers: {'Content-Type': 'application/json'},
+          )
           .timeout(const Duration(seconds: 10));
-      // Fixed: Added call to returnResponse to process the response
       jsonResponse = returnResponse(response);
     } on SocketException {
       throw FetchDataException("No internet Connection");
     }
-    // Fixed: Added return statement
     return jsonResponse;
   }
 }
@@ -42,6 +43,7 @@ class Networkapiservice extends Baseapiservice {
 dynamic returnResponse(http.Response response) {
   switch (response.statusCode) {
     case 200:
+    case 201: // Added 201 for "Created" (common in signup)
       dynamic jsonResponse = jsonDecode(response.body);
       return jsonResponse;
     case 400:
@@ -49,7 +51,6 @@ dynamic returnResponse(http.Response response) {
     case 404:
       throw UnauthorizedException(response.body.toString());
     default:
-      // Fixed: Added 'throw' keyword to correctly raise the exception
       throw FetchDataException(
         "Error occurred while communicating with server with status code ${response.statusCode}",
       );

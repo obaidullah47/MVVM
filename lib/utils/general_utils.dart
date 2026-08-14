@@ -10,25 +10,27 @@ class GeneralUtils {
   }
 
   static flushbarerrormessage(String message, BuildContext context) {
+    // Fixed: Removed the redundant ..show(context) call that was causing the "stuck" UI
     showFlushbar(
       context: context,
       flushbar: Flushbar(
         message: message,
-        duration: Duration(seconds: 2),
+        duration: const Duration(seconds: 3), // Ensures it disappears
         positionOffset: 20,
-
         flushbarPosition: FlushbarPosition.TOP,
         reverseAnimationCurve: Curves.easeInCubic,
         forwardAnimationCurve: Curves.easeIn,
-        margin: EdgeInsets.all(20),
+        margin: const EdgeInsets.all(20),
         titleColor: Colors.black,
         messageColor: Colors.white,
         borderRadius: BorderRadius.circular(40),
-        padding: EdgeInsets.all(20),
-        icon: Icon(Icons.error, size: 30, color: Colors.red),
+        padding: const EdgeInsets.all(20),
+        icon: const Icon(Icons.error, size: 30, color: Colors.red),
         backgroundColor: Appcolors.ButtonColor,
-        animationDuration: Duration(microseconds: 10),
-      )..show(context),
+        animationDuration: const Duration(
+          milliseconds: 400,
+        ), // Fixed: changed from microseconds
+      ),
     );
   }
 

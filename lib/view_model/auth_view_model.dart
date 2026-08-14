@@ -30,4 +30,32 @@ class AuthViewModel with ChangeNotifier {
           }
         });
   }
+
+  //signup api call//
+  bool _singunloading = false;
+  bool get signuploading => _singunloading;
+  setsignuploading(bool value) {
+    _singunloading = value;
+    notifyListeners();
+  }
+
+  Future<void> signup(dynamic data, BuildContext context) async {
+    setsignuploading(true);
+    _myrepo
+        .signup(data)
+        .then((value) {
+          setsignuploading(false);
+          GeneralUtils.flushbarerrormessage("Signup done", context);
+
+          if (kDebugMode) {
+            print(value.toString());
+          }
+        })
+        .onError((error, stackTrace) {
+          setsignuploading(false);
+          if (kDebugMode) {
+            print(error.toString());
+          }
+        });
+  }
 }
