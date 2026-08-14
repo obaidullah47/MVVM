@@ -1,5 +1,4 @@
 import 'package:another_flushbar/another_flushbar.dart';
-import 'package:another_flushbar/flushbar_route.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mvvm/res/appcolors.dart';
@@ -10,28 +9,21 @@ class GeneralUtils {
   }
 
   static flushbarerrormessage(String message, BuildContext context) {
-    // Fixed: Removed the redundant ..show(context) call that was causing the "stuck" UI
-    showFlushbar(
-      context: context,
-      flushbar: Flushbar(
-        message: message,
-        duration: const Duration(seconds: 3), // Ensures it disappears
-        positionOffset: 20,
-        flushbarPosition: FlushbarPosition.TOP,
-        reverseAnimationCurve: Curves.easeInCubic,
-        forwardAnimationCurve: Curves.easeIn,
-        margin: const EdgeInsets.all(20),
-        titleColor: Colors.black,
-        messageColor: Colors.white,
-        borderRadius: BorderRadius.circular(40),
-        padding: const EdgeInsets.all(20),
-        icon: const Icon(Icons.error, size: 30, color: Colors.red),
-        backgroundColor: Appcolors.ButtonColor,
-        animationDuration: const Duration(
-          milliseconds: 400,
-        ), // Fixed: changed from microseconds
-      ),
-    );
+    Flushbar(
+      message: message,
+      duration: const Duration(seconds: 3),
+      positionOffset: 20,
+      flushbarPosition: FlushbarPosition.TOP,
+      reverseAnimationCurve: Curves.easeInCubic,
+      forwardAnimationCurve: Curves.easeIn,
+      margin: const EdgeInsets.all(20),
+      borderRadius: BorderRadius.circular(40),
+      padding: const EdgeInsets.all(20),
+      icon: const Icon(Icons.error, size: 30, color: Colors.red),
+      backgroundColor: Appcolors.ButtonColor,
+      messageColor: Colors.white,
+      animationDuration: const Duration(milliseconds: 400),
+    ).show(context); // Using .show(context) directly
   }
 
   static void Focusnode(

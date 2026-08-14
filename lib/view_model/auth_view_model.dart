@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mvvm/repository/auth_repository.dart';
 import 'package:mvvm/utils/general_utils.dart';
+import 'package:mvvm/utils/routes/routes_names.dart';
 
 class AuthViewModel with ChangeNotifier {
   final _myrepo = AuthRepository();
@@ -19,12 +20,14 @@ class AuthViewModel with ChangeNotifier {
         .then((value) {
           setLoading(false);
           GeneralUtils.flushbarerrormessage("Login successfully", context);
+          Navigator.pushNamed(context, RoutesNames.Home);
           if (kDebugMode) {
             print(value.toString());
           }
         })
         .onError((error, stackTrace) {
           setLoading(false);
+          GeneralUtils.flushbarerrormessage(error.toString(), context);
           if (kDebugMode) {
             print(error.toString());
           }
@@ -46,13 +49,14 @@ class AuthViewModel with ChangeNotifier {
         .then((value) {
           setsignuploading(false);
           GeneralUtils.flushbarerrormessage("Signup done", context);
-
+          Navigator.pushNamed(context, RoutesNames.Home);
           if (kDebugMode) {
             print(value.toString());
           }
         })
         .onError((error, stackTrace) {
           setsignuploading(false);
+          GeneralUtils.flushbarerrormessage(error.toString(), context);
           if (kDebugMode) {
             print(error.toString());
           }

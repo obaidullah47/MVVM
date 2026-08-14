@@ -50,157 +50,156 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: TextFormField(
-                controller: _namecontroller,
-                focusNode: _namefocus,
-                decoration: InputDecoration(
-                  hintText: "Enter your Name", // Fixed property name
-                  label: const Text('Name'),
-                  prefixIcon: const Icon(Icons.person),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: TextFormField(
+              controller: _namecontroller,
+              focusNode: _namefocus,
+              decoration: InputDecoration(
+                hintText: "Enter your Name", // Fixed property name
+                label: const Text('Name'),
+                prefixIcon: const Icon(Icons.person),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
                 ),
-                onFieldSubmitted: (val) {
-                  GeneralUtils.Focusnode(context, _namefocus, _emailfocus);
-                },
               ),
+              onFieldSubmitted: (val) {
+                GeneralUtils.Focusnode(context, _namefocus, _emailfocus);
+              },
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                controller: _emailcontroller,
-                keyboardType: TextInputType.emailAddress,
-                focusNode: _emailfocus,
-                decoration: InputDecoration(
-                  label: const Text("Email"),
-                  hintText: "Enter your Email", // Fixed property name
-                  prefixIcon: const Icon(Icons.email_outlined),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextFormField(
+              controller: _emailcontroller,
+              keyboardType: TextInputType.emailAddress,
+              focusNode: _emailfocus,
+              decoration: InputDecoration(
+                label: const Text("Email"),
+                hintText: "Enter your Email", // Fixed property name
+                prefixIcon: const Icon(Icons.email_outlined),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
                 ),
-                onFieldSubmitted: (val) {
-                  GeneralUtils.Focusnode(context, _emailfocus, _passwordfocus);
-                },
               ),
+              onFieldSubmitted: (val) {
+                GeneralUtils.Focusnode(context, _emailfocus, _passwordfocus);
+              },
             ),
-            ValueListenableBuilder(
-              valueListenable: _eyenotifier,
-              builder: (context, value, child) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextFormField(
-                    controller: _passwordcontroller,
-                    focusNode: _passwordfocus,
-                    obscureText: _eyenotifier.value,
-                    obscuringCharacter: "*",
-                    decoration: InputDecoration(
-                      hintText: "Enter Your password",
-                      label: const Text("Password"),
-                      prefixIcon: const Icon(Icons.lock_open_outlined),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      suffixIcon: InkWell(
-                        onTap: () {
-                          _eyenotifier.value = !_eyenotifier.value;
-                        },
-                        child: Icon(
-                          _eyenotifier.value
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                        ),
+          ),
+          ValueListenableBuilder(
+            valueListenable: _eyenotifier,
+            builder: (context, value, child) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: _passwordcontroller,
+                  focusNode: _passwordfocus,
+                  obscureText: _eyenotifier.value,
+                  obscuringCharacter: "*",
+                  decoration: InputDecoration(
+                    hintText: "Enter Your password",
+                    label: const Text("Password"),
+                    prefixIcon: const Icon(Icons.lock_open_outlined),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    suffixIcon: InkWell(
+                      onTap: () {
+                        _eyenotifier.value = !_eyenotifier.value;
+                      },
+                      child: Icon(
+                        _eyenotifier.value
+                            ? Icons.visibility_off
+                            : Icons.visibility,
                       ),
                     ),
-                    onFieldSubmitted: (val) {
-                      GeneralUtils.Focusnode(
-                        context,
-                        _passwordfocus,
-                        _avatarfocus,
-                      );
-                    },
                   ),
-                );
-              },
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: TextFormField(
-                controller: _avatarcontroller,
-                focusNode: _avatarfocus,
-                keyboardType: TextInputType.url,
-                decoration: InputDecoration(
-                  hintText: "Enter avatar URL", // Fixed property name
-                  label: const Text("Avatar URL"),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  prefixIcon: const Icon(Icons.image_outlined),
+                  onFieldSubmitted: (val) {
+                    GeneralUtils.Focusnode(
+                      context,
+                      _passwordfocus,
+                      _avatarfocus,
+                    );
+                  },
                 ),
+              );
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: TextFormField(
+              controller: _avatarcontroller,
+              focusNode: _avatarfocus,
+              keyboardType: TextInputType.url,
+              decoration: InputDecoration(
+                hintText: "Enter avatar URL", // Fixed property name
+                label: const Text("Avatar URL"),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                prefixIcon: const Icon(Icons.image_outlined),
               ),
             ),
-            const SizedBox(height: 40),
-            RoundButtons(
-              loading: authprovider.signuploading,
-              title: "Sign Up",
-              onPress: () {
-                if (_emailcontroller.text.isEmpty) {
-                  GeneralUtils.flushbarerrormessage(
-                    "Your email is not entered",
-                    context,
-                  );
-                } else if (_passwordcontroller.text.isEmpty) {
-                  GeneralUtils.flushbarerrormessage(
-                    "Enter your password",
-                    context,
-                  );
-                } else if (_passwordcontroller.text.length < 6) {
-                  GeneralUtils.flushbarerrormessage(
-                    "Password must be at least 6 digits",
-                    context,
-                  );
-                } else {
-                  Map data = {
-                    'name': _namecontroller.text.trim(),
-                    'email': _emailcontroller.text.trim(),
-                    'password': _passwordcontroller.text.trim(),
-                    'avatar': _avatarcontroller.text.isEmpty
-                        ? "https://picsum.photos/800"
-                        : _avatarcontroller.text.trim(),
-                  };
-                  authprovider.signup(data, context);
-                }
-              },
-            ),
-            const SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "Already had an account?",
-                  style: TextStyle(fontSize: 14),
+          ),
+          const SizedBox(height: 40),
+          RoundButtons(
+            loading: authprovider.signuploading,
+            title: "Sign Up",
+
+            onPress: () {
+              if (_emailcontroller.text.isEmpty) {
+                GeneralUtils.flushbarerrormessage(
+                  "Your email is not entered",
+                  context,
+                );
+              } else if (_passwordcontroller.text.isEmpty) {
+                GeneralUtils.flushbarerrormessage(
+                  "Enter your password",
+                  context,
+                );
+              } else if (_passwordcontroller.text.length < 6) {
+                GeneralUtils.flushbarerrormessage(
+                  "Password must be at least 6 digits",
+                  context,
+                );
+              } else {
+                Map data = {
+                  'name': _namecontroller.text.trim(),
+                  'email': _emailcontroller.text.trim(),
+                  'password': _passwordcontroller.text.trim(),
+                  'avatar': _avatarcontroller.text.isEmpty
+                      ? "https://picsum.photos/800"
+                      : _avatarcontroller.text.trim(),
+                };
+                authprovider.signup(data, context);
+              }
+            },
+          ),
+          const SizedBox(height: 30),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                "Already had an account?",
+                style: TextStyle(fontSize: 14),
+              ),
+              const SizedBox(width: 10),
+              InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, RoutesNames.LoginScreen);
+                },
+                child: const Text(
+                  "Login",
+                  style: TextStyle(fontSize: 17, color: Colors.blue),
                 ),
-                const SizedBox(width: 10),
-                InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, RoutesNames.LoginScreen);
-                  },
-                  child: const Text(
-                    "Login",
-                    style: TextStyle(fontSize: 17, color: Colors.blue),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
