@@ -11,7 +11,13 @@ class Networkapiservice extends Baseapiservice {
     dynamic jsonResponse;
     try {
       final response = await http
-          .get(Uri.parse(url))
+          .get(
+            Uri.parse(url),
+            headers: {
+              'x-api-key':
+                  "pub_c65bf259af579cf38bbc8eaace80b5eafda5a8ac688192f2b115bae0fff855e4",
+            },
+          )
           .timeout(const Duration(seconds: 10));
       jsonResponse = returnResponse(response);
     } on SocketException {
@@ -29,7 +35,11 @@ class Networkapiservice extends Baseapiservice {
             Uri.parse(url),
             // Crucial: Must use jsonEncode if sending application/json
             body: jsonEncode(data),
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+              'Content-Type': 'application/json',
+              'x-api-key':
+                  'pub_c65bf259af579cf38bbc8eaace80b5eafda5a8ac688192f2b115bae0fff855e4',
+            },
           )
           .timeout(const Duration(seconds: 10));
       jsonResponse = returnResponse(response);

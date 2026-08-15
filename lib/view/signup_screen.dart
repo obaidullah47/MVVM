@@ -151,14 +151,13 @@ class _SignupScreenState extends State<SignupScreen> {
             title: "Sign Up",
 
             onPress: () {
-              if (_emailcontroller.text.isEmpty) {
-                GeneralUtils.flushbarerrormessage(
-                  "Your email is not entered",
-                  context,
-                );
+              if (_namecontroller.text.isEmpty) {
+                GeneralUtils.flushbarerrormessage("Enter your name", context);
+              } else if (_emailcontroller.text.isEmpty) {
+                GeneralUtils.flushbarerrormessage("Enter your email", context);
               } else if (_passwordcontroller.text.isEmpty) {
                 GeneralUtils.flushbarerrormessage(
-                  "Enter your password",
+                  "Enter your password ",
                   context,
                 );
               } else if (_passwordcontroller.text.length < 6) {

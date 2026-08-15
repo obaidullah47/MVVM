@@ -4,6 +4,7 @@ import 'package:mvvm/utils/general_utils.dart';
 import 'package:mvvm/utils/routes/routes_names.dart';
 import 'package:mvvm/view_model/auth_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -94,7 +95,11 @@ class _LoginScreenState extends State<LoginScreen> {
           RoundButtons(
             loading: authprovider.loading,
             title: "Login",
-            onPress: () {
+            onPress: () async {
+              SharedPreferences sp = await SharedPreferences.getInstance();
+              sp.setString("email", _emailcontroller.text.toString());
+              sp.setString('password', _passwordcontroller.text.toString());
+              sp.setBool('islogin', true);
               if (_emailcontroller.text.isEmpty) {
                 GeneralUtils.flushbarerrormessage("Enter the email ", context);
               } else if (_passwordcontroller.text.isEmpty) {
@@ -115,6 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 };
                 authprovider.login(data, context);
                 GeneralUtils.flushbarerrormessage("Your api hit", context);
+                Navigator.pushNamed(context, RoutesNames.Home);
               }
             },
           ),

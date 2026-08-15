@@ -1,5 +1,5 @@
 class AppUrls {
-  static var baseurl = 'https://api.escuelajs.co/api/v1';
-  static var loginUrl = baseurl + '/auth/login';
-  static var signupUrl = baseurl + '/users/';
+  static var baseurl = 'https://reqres.in/api';
+  static var loginUrl = baseurl + '/login';
+  static var signupUrl = baseurl + '/register';
 }

@@ -19,7 +19,7 @@ class GeneralUtils {
       margin: const EdgeInsets.all(20),
       borderRadius: BorderRadius.circular(40),
       padding: const EdgeInsets.all(20),
-      icon: const Icon(Icons.error, size: 30, color: Colors.red),
+      icon: const Icon(Icons.error, size: 30, color: Colors.white),
       backgroundColor: Appcolors.ButtonColor,
       messageColor: Colors.white,
       animationDuration: const Duration(milliseconds: 400),
