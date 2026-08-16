@@ -1,8 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:mvvm/utils/routes/routes_names.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import '../view_model/services/splash_services.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -12,25 +10,13 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  SplashServices splashServices = SplashServices();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    islogin();
-  }
-
-  void islogin() async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    bool islogin = sp.getBool('islogin') ?? false;
-    if (islogin) {
-      Timer(Duration(seconds: 2), () {
-        Navigator.pushNamed(context, RoutesNames.Home);
-      });
-    } else {
-      Timer(Duration(seconds: 2), () {
-        Navigator.pushNamed(context, RoutesNames.LoginScreen);
-      });
-    }
+    splashServices.checkAuthentication(context);
   }
 
   @override

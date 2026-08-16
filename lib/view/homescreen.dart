@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mvvm/res/components/round_buttons.dart';
 import 'package:mvvm/utils/routes/routes_names.dart';
-import 'package:mvvm/view_model/auth_view_model.dart';
+import 'package:mvvm/view_model/user_view_model.dart';
 import 'package:provider/provider.dart';
 
 class Homescreen extends StatefulWidget {
@@ -14,7 +14,7 @@ class Homescreen extends StatefulWidget {
 class _HomescreenState extends State<Homescreen> {
   @override
   Widget build(BuildContext context) {
-    final authprovider = Provider.of<AuthViewModel>(context);
+    final userviewmodel = Provider.of<UserViewModel>(context);
     return Scaffold(
       appBar: AppBar(title: Text("Homescreen")),
       body: Column(
@@ -29,11 +29,9 @@ class _HomescreenState extends State<Homescreen> {
           SizedBox(height: 20),
           RoundButtons(
             title: "logout",
-            loading: authprovider.logoutloading,
-            onPress: () async {
-              authprovider.logout(context);
-
-              Navigator.pushNamed(context, RoutesNames.LoginScreen);
+            onPress: () {
+              userviewmodel.logout();
+              Navigator.pushReplacementNamed(context, RoutesNames.LoginScreen);
             },
           ),
         ],

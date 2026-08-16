@@ -13,28 +13,20 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  final TextEditingController _avatarcontroller = TextEditingController();
   final TextEditingController _emailcontroller = TextEditingController();
-  final TextEditingController _namecontroller = TextEditingController();
   final TextEditingController _passwordcontroller = TextEditingController();
 
   final FocusNode _emailfocus = FocusNode();
   final FocusNode _passwordfocus = FocusNode();
-  final FocusNode _namefocus = FocusNode();
-  final FocusNode _avatarfocus = FocusNode();
 
   ValueNotifier<bool> _eyenotifier = ValueNotifier<bool>(true);
 
   @override
   void dispose() {
-    _avatarcontroller.dispose();
     _emailcontroller.dispose();
-    _namecontroller.dispose();
     _passwordcontroller.dispose();
     _emailfocus.dispose();
     _passwordfocus.dispose();
-    _namefocus.dispose();
-    _avatarfocus.dispose();
     _eyenotifier.dispose();
     super.dispose();
   }
@@ -53,24 +45,6 @@ class _SignupScreenState extends State<SignupScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: TextFormField(
-              controller: _namecontroller,
-              focusNode: _namefocus,
-              decoration: InputDecoration(
-                hintText: "Enter your Name", // Fixed property name
-                label: const Text('Name'),
-                prefixIcon: const Icon(Icons.person),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-              ),
-              onFieldSubmitted: (val) {
-                GeneralUtils.Focusnode(context, _namefocus, _emailfocus);
-              },
-            ),
-          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
@@ -118,42 +92,18 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                     ),
                   ),
-                  onFieldSubmitted: (val) {
-                    GeneralUtils.Focusnode(
-                      context,
-                      _passwordfocus,
-                      _avatarfocus,
-                    );
-                  },
                 ),
               );
             },
           ),
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: TextFormField(
-              controller: _avatarcontroller,
-              focusNode: _avatarfocus,
-              keyboardType: TextInputType.url,
-              decoration: InputDecoration(
-                hintText: "Enter avatar URL", // Fixed property name
-                label: const Text("Avatar URL"),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                prefixIcon: const Icon(Icons.image_outlined),
-              ),
-            ),
-          ),
+
           const SizedBox(height: 40),
           RoundButtons(
             loading: authprovider.signuploading,
             title: "Sign Up",
 
             onPress: () {
-              if (_namecontroller.text.isEmpty) {
-                GeneralUtils.flushbarerrormessage("Enter your name", context);
-              } else if (_emailcontroller.text.isEmpty) {
+              if (_emailcontroller.text.isEmpty) {
                 GeneralUtils.flushbarerrormessage("Enter your email", context);
               } else if (_passwordcontroller.text.isEmpty) {
                 GeneralUtils.flushbarerrormessage(
@@ -167,12 +117,8 @@ class _SignupScreenState extends State<SignupScreen> {
                 );
               } else {
                 Map data = {
-                  'name': _namecontroller.text.trim(),
                   'email': _emailcontroller.text.trim(),
                   'password': _passwordcontroller.text.trim(),
-                  'avatar': _avatarcontroller.text.isEmpty
-                      ? "https://picsum.photos/800"
-                      : _avatarcontroller.text.trim(),
                 };
                 authprovider.signup(data, context);
               }

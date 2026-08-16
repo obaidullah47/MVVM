@@ -1,9 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mvvm/models/User_model.dart';
 import 'package:mvvm/repository/auth_repository.dart';
 import 'package:mvvm/utils/general_utils.dart';
 import 'package:mvvm/utils/routes/routes_names.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mvvm/view_model/user_view_model.dart';
 
 class AuthViewModel with ChangeNotifier {
   final _myrepo = AuthRepository();
@@ -20,8 +21,8 @@ class AuthViewModel with ChangeNotifier {
         .login(data)
         .then((value) async {
           setLoading(false);
-          SharedPreferences sp = await SharedPreferences.getInstance();
-          sp.setBool('islogin', true);
+          final userprefrences = UserViewModel();
+          userprefrences.saveuser(UserModel(token: value['token'].toString()));
           GeneralUtils.flushbarerrormessage("Login successfully", context);
           Navigator.pushNamed(context, RoutesNames.Home);
           if (kDebugMode) {
@@ -62,31 +63,6 @@ class AuthViewModel with ChangeNotifier {
           GeneralUtils.flushbarerrormessage(error.toString(), context);
           if (kDebugMode) {
             print(error.toString());
-          }
-        });
-  }
-
-  bool _logoutloading = false;
-  bool get logoutloading => _logoutloading;
-  setlogoutloadig(bool value) {
-    _logoutloading = value;
-    notifyListeners();
-  }
-
-  Future<void> logout(BuildContext context) async {
-    setlogoutloadig(true);
-    _myrepo
-        .logout()
-        .then((value) {
-          setlogoutloadig(false);
-          if (kDebugMode) {
-            GeneralUtils.flushbarerrormessage("logout successfully", context);
-          }
-        })
-        .onError((error, stackTrace) {
-          setlogoutloadig(false);
-          if (kDebugMode) {
-            GeneralUtils.flushbarerrormessage(error.toString(), context);
           }
         });
   }

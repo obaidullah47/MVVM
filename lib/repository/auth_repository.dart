@@ -1,7 +1,6 @@
 import 'package:mvvm/data/network/NetworkApiService.dart';
 import 'package:mvvm/data/network/baseApiservice.dart';
 import 'package:mvvm/res/app_urls.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthRepository {
   final Baseapiservice _apiservices = Networkapiservice();
@@ -27,15 +26,6 @@ class AuthRepository {
       return signupResponse; // Added return statement
     } catch (e) {
       rethrow;
-    }
-  }
-
-  Future<dynamic> logout() async {
-    try {
-      SharedPreferences sp = await SharedPreferences.getInstance();
-      sp.clear();
-    } catch (e) {
-      print(e.toString());
     }
   }
 }
