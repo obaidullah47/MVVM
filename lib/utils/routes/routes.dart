@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mvvm/models/movies_list_model.dart';
 import 'package:mvvm/utils/routes/routes_names.dart';
 import 'package:mvvm/view/homescreen.dart';
 import 'package:mvvm/view/login_screen.dart';
+import 'package:mvvm/view/movies_detail_infoscreen.dart';
 import 'package:mvvm/view/signup_screen.dart';
 import 'package:mvvm/view/splash_screen.dart';
 
@@ -23,6 +25,11 @@ class Routes {
       case RoutesNames.splash:
         return MaterialPageRoute(
           builder: (BuildContext context) => SplashScreen(),
+        );
+      case RoutesNames.moviedetail:
+        return MaterialPageRoute(
+          builder: (BuildContext context) =>
+              MoviesDetailInfoscreen(movie: settings.arguments as Data),
         );
       default:
         return MaterialPageRoute(
