@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mvvm/models/movies_list_model.dart';
-import 'package:mvvm/res/appcolors.dart';
 
 class MoviesDetailInfoscreen extends StatefulWidget {
+  // Fixed: Declared the movie field and assigned it in constructor
   final Data movie;
-
-  MoviesDetailInfoscreen({super.key, required this.movie});
+  const MoviesDetailInfoscreen({super.key, required this.movie});
 
   @override
   State<MoviesDetailInfoscreen> createState() => _MoviesDetailInfoscreenState();
@@ -16,37 +15,48 @@ class _MoviesDetailInfoscreenState extends State<MoviesDetailInfoscreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.white),
-        backgroundColor: Appcolors.appbarcolor,
-        title: Text(
-          widget.movie.originalTitle.toString(),
-          style: TextStyle(color: Colors.white),
-        ),
+        // Fixed: Access the movie title from widget.movie
+        title: Text(widget.movie.originalTitle.toString()),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
+      body: SingleChildScrollView(
         child: Column(
           children: [
-            Text(" Overview ", style: TextStyle(fontSize: 20)),
-            SizedBox(height: 20),
-
-            Text(
-              widget.movie.overview.toString(),
-              style: TextStyle(fontWeight: FontWeight.normal, fontSize: 17),
+            Container(
+              height: 400,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(widget.movie.posterPath.toString()),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.movie.originalTitle.toString(),
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text("Release Date: ${widget.movie.releaseDate}"),
+                  const SizedBox(height: 10),
+                  Text(
+                    widget.movie.overview.toString(),
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
       ),
     );
-  }
-}
-
-class Reusedablecard extends StatelessWidget {
-  const Reusedablecard({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
   }
 }

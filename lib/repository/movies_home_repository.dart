@@ -10,10 +10,8 @@ class MoviesHomeRepository {
       dynamic response = await _apiservice.getGetResponse(
         AppUrls.movieslistendpoint,
       );
-      // Fixed: Removed the redundant assignment 'response=' and properly returned the mapped model
       return MoviesListModel.fromJson(response);
     } catch (e) {
-      // Fixed: Standardized error throwing for the ViewModel to handle
       throw e.toString();
     }
   }

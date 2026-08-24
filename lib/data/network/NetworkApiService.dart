@@ -48,21 +48,21 @@ class Networkapiservice extends Baseapiservice {
     }
     return jsonResponse;
   }
-}
 
-dynamic returnResponse(http.Response response) {
-  switch (response.statusCode) {
-    case 200:
-    case 201: // Added 201 for "Created" (common in signup)
-      dynamic jsonResponse = jsonDecode(response.body);
-      return jsonResponse;
-    case 400:
-      throw BadRequestException(response.body.toString());
-    case 404:
-      throw UnauthorizedException(response.body.toString());
-    default:
-      throw FetchDataException(
-        "Error occurred while communicating with server with status code ${response.statusCode}",
-      );
+  dynamic returnResponse(http.Response response) {
+    switch (response.statusCode) {
+      case 200:
+      case 201: // Added 201 for "Created" (common in signup)
+        dynamic jsonResponse = jsonDecode(response.body);
+        return jsonResponse;
+      case 400:
+        throw BadRequestException(response.body.toString());
+      case 404:
+        throw UnauthorizedException(response.body.toString());
+      default:
+        throw FetchDataException(
+          "Error occurred while communicating with server with status code ${response.statusCode}",
+        );
+    }
   }
 }
